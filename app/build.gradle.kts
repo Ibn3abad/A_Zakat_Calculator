@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.zakat_calculator"
+    namespace = "com.Ibn3abad.zakat_calculator"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.example.zakat_calculator"
+        applicationId = "com.Ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -22,6 +22,8 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            // Enables resource shrinking.
+            // isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
