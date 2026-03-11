@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Zakat Rechner</string>
+    <string name="drawer_title">Zakat Kategorien</string>
+    <string name="cat_liquid">Liquidität</string>
+    <string name="cat_business">Firma</string>
+    <string name="cat_stocks">Aktien</string>
+    <string name="cat_gold">Gold</string>
+    <string name="cat_silver">Silber</string>
+    <string name="cat_harvest">Ernte</string>
+    <string name="cat_animals">Tiere</string>
+    <string name="market_nisab_title">Aktueller Nisab-Wert (Markt):</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silber</string>
+    <string name="nisab_label">Nisab (gewählt):</string>
+    <string name="nisab_label_short">Nisab:</string>
+    <string name="nisab_standard">Nisab-Maßstab:</string>
+    <string name="irrigation">Bewässerung:</string>
+    <string name="irr_rain">Regen (10%)</string>
+    <string name="irr_artificial">Künstlich (5%)</string>
+    <string name="irr_mixed">Gemischt (7,5%)</string>
+    <string name="input_label">Deine Menge</string>
+    <string name="result_label">Zakat-Ergebnis:</string>
+    <string name="under_nisab">Unter Nisab-Grenze</string>
+    <string name="animal_sheep">Schafe</string>
+    <string name="animal_cows">Kühe</string>
+    <string name="animal_camels">Kamele</string>
+    <string name="unit_pieces">Stück</string>
+    <string name="res_give">Abgabe</string>
+    <string name="res_sheep">Schaf(e)</string>
+    <string name="res_tabi">Tabi\' (1-jährig)</string>
+    <string name="res_musinnah">Musinnah (2-jährig)</string>
+    <string name="res_bint_makhad">Bint Makhad</string>
+    <string name="res_bint_labun">Bint Labun</string>
+    <string name="res_hiqqah">Hiqqah</string>
+    <string name="res_jadhah">Jadh\'ah</string>
+    <string name="res_camel_rule">Pro 40: 1 Bint Labun / Pro 50: 1 Hiqqah</string>
+    <string name="res_base">Zakat-Basis:</string>
+    <string name="res_zakat_amount">Zakat-Betrag:</string>
+    <string name="assets_label">Gesamtvermögen</string>
+    <string name="liabilities_label">Verbindlichkeiten</string>
+
+    <string name="res_under_nisab">Unter Nisab-Grenze</string>
+    <string name="res_sheep_unit">Schaf(e)</string>
+    <string name="res_output">Zakat-Ergebnis:</string>
+</resources>

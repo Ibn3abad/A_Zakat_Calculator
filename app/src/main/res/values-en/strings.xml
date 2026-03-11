@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Zakat Calculator</string>
+    <string name="drawer_title">Zakat Categories</string>
+    <string name="cat_liquid">Cash / Liquidity</string>
+    <string name="cat_business">Business</string>
+    <string name="cat_stocks">Stocks</string>
+    <string name="cat_gold">Gold</string>
+    <string name="cat_silver">Silver</string>
+    <string name="cat_harvest">Harvest</string>
+    <string name="cat_animals">Animals</string>
+    <string name="market_nisab_title">Current Nisab Value (Market):</string>
+    <string name="gold">Gold</string>
+    <string name="silver">Silver</string>
+    <string name="nisab_label">Nisab (selected):</string>
+    <string name="nisab_label_short">Nisab:</string>
+    <string name="nisab_standard">Nisab Standard:</string>
+    <string name="irrigation">Irrigation:</string>
+    <string name="irr_rain">Rainfed (10%)</string>
+    <string name="irr_artificial">Artificial (5%)</string>
+    <string name="irr_mixed">Mixed (7.5%)</string>
+    <string name="input_label">Your Amount</string>
+    <string name="result_label">Zakat Result:</string>
+    <string name="under_nisab">Below Nisab Threshold</string>
+    <string name="res_tabi">Tabi\' (1 year old)</string>
+    <string name="res_musinnah">Musinnah (2 years old)</string>
+    <string name="res_bint_makhad">Bint Makhad</string>
+    <string name="res_bint_labun">Bint Labun</string>
+    <string name="res_hiqqah">Hiqqah</string>
+    <string name="res_jadhah">Jadh\'ah</string>
+    <string name="res_camel_rule">Per 40: 1 Bint Labun / Per 50: 1 Hiqqah</string>
+    <string name="res_sheep">Sheep</string>
+    <string name="res_base">Zakat Base:</string>
+    <string name="res_zakat_amount">Zakat:</string>
+    <string name="assets_label">Total Assets</string>
+    <string name="liabilities_label">Total Liabilities</string>
+</resources>

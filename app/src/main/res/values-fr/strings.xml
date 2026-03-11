@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Calculateur de Zakat</string>
+    <string name="drawer_title">Catégories de Zakat</string>
+    <string name="cat_liquid">Liquidités</string>
+    <string name="cat_business">Entreprise</string>
+    <string name="cat_stocks">Actions</string>
+    <string name="cat_gold">Or</string>
+    <string name="cat_silver">Argent</string>
+    <string name="cat_harvest">Récolte</string>
+    <string name="cat_animals">Animaux</string>
+    <string name="market_nisab_title">Valeur actuelle du Nisab (Marché) :</string>
+    <string name="gold">Or</string>
+    <string name="silver">Argent</string>
+    <string name="nisab_label">Nisab (sélectionné) :</string>
+    <string name="nisab_label_short">Nisab :</string>
+    <string name="nisab_standard">Standard du Nisab :</string>
+    <string name="irrigation">Irrigation :</string>
+    <string name="irr_rain">Pluvial (10%)</string>
+    <string name="irr_artificial">Artificiel (5%)</string>
+    <string name="irr_mixed">Mixte (7,5%)</string>
+    <string name="input_label">Votre montant</string>
+    <string name="result_label">Résultat de la Zakat :</string>
+    <string name="under_nisab">Sous le seuil du Nisab</string>
+    <string name="res_tabi">Tabi\' (1 an)</string>
+    <string name="res_musinnah">Musinnah (2 ans)</string>
+    <string name="res_bint_makhad">Bint Makhad</string>
+    <string name="res_bint_labun">Bint Labun</string>
+    <string name="res_hiqqah">Hiqqah</string>
+    <string name="res_jadhah">Jadh\'ah</string>
+    <string name="res_camel_rule">Par 40 : 1 Bint Labun / Par 50 : 1 Hiqqah</string>
+    <string name="res_sheep">Mouton(s)</string>
+    <string name="res_base">Assiette Zakatable:</string>
+    <string name="res_zakat_amount">Zakat:</string>
+    <string name="assets_label">Total Actifs</string>
+    <string name="liabilities_label">Total Passifs</string>
+</resources>
