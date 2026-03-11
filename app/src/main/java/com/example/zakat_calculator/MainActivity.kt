@@ -1,3 +1,10 @@
+/**
+ * @Author: Abderrahim KHOUK
+ * @Version: 1.0.0
+ * @Description: Android-Applikation zur Zakat Berechnung.
+ * @Note: Entwickelt unter Berücksichtigung globaler Datenethik
+ * und technischer Transparenz.
+ */
 package com.example.zakat_calculator
 
 import android.os.Bundle
