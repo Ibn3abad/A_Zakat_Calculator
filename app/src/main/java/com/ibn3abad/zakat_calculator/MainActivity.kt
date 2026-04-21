@@ -1,7 +1,5 @@
 package com.ibn3abad.zakat_calculator
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -70,78 +68,19 @@ import androidx.core.os.LocaleListCompat
 import com.ibn3abad.zakat_calculator.ui.theme.Zakat_CalculatorTheme
 import kotlinx.coroutines.launch
 
-import com.google.android.gms.ads.MobileAds
-//import kotlin.concurrent.thread
-
-//import android.view.ViewGroup
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.RequestConfiguration
-import com.google.android.ump.ConsentInformation
-import com.google.android.ump.ConsentRequestParameters
-import com.google.android.ump.UserMessagingPlatform
 
 class MainActivity : AppCompatActivity() {
 
     private val zakatViewModel: ZakatViewModel by viewModels()
-    private lateinit var consentInformation: ConsentInformation
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
-        requestConsent()
-
         enableEdgeToEdge()
         setContent {
             Zakat_CalculatorTheme {
                 ZakatCalculatorApp(zakatViewModel)
             }
         }
-    }
-
-    private fun requestConsent() {
-        val params = ConsentRequestParameters.Builder()
-            .setTagForUnderAgeOfConsent(false)
-            .build()
-
-        consentInformation = UserMessagingPlatform.getConsentInformation(this)
-        consentInformation.requestConsentInfoUpdate(
-            this,
-            params,
-            {
-                UserMessagingPlatform.loadAndShowConsentFormIfRequired(this) { loadAndShowError ->
-                    if (loadAndShowError != null) {
-                        android.util.Log.w("Ads", "${loadAndShowError.errorCode}: ${loadAndShowError.message}")
-                    }
-                    if (consentInformation.canRequestAds()) {
-                        initializeMobileAdsSdk()
-                    }
-                }
-            },
-            { requestConsentError ->
-                android.util.Log.w("Ads", "${requestConsentError.errorCode}: ${requestConsentError.message}")
-            }
-        )
-
-        if (consentInformation.canRequestAds()) {
-            initializeMobileAdsSdk()
-        }
-    }
-
-    private var isMobileAdsSdkInitialized = false
-    private fun initializeMobileAdsSdk() {
-        if (isMobileAdsSdkInitialized) return
-        isMobileAdsSdkInitialized = true
-
-        val configuration = RequestConfiguration.Builder()
-            .setTestDeviceIds(listOf("402D6A4F87A518FEB1CCCBBD510C8BE3"))
-            .build()
-        MobileAds.setRequestConfiguration(configuration)
-        MobileAds.initialize(this) {}
     }
 }
 
@@ -157,7 +96,6 @@ enum class AppDestinations(val labelRes: Int, val iconRes: Int) {
     SILBER(R.string.cat_silver, R.drawable.silver_64x64),
     ERNTE(R.string.cat_harvest, R.drawable.ernte_64x64),
     TIERE(R.string.cat_animals, R.drawable.tiere_64x64),
-    ABOUT(R.string.cat_about, R.drawable.app_logo),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -282,31 +220,11 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                                 )
                             }
                         },
-                        colors = TopAppBarDefaults.topAppBarColors(
                             containerColor = Color.Black.copy(alpha = 0.7f)
                         )
                     )
-                },
-                bottomBar = {
-                    AdMobBanner(
-                        // Google Test-ID für Banner (Immer zum Testen verwenden!)
-                        //adUnitId = "ca-app-pub-3940256099942544/6300978111"
-                        adUnitId = if (BuildConfig.DEBUG) {
-                                        "ca-app-pub-3940256099942544/6300978111" // Test ID
-                                   } else {
-                                        "ca-app-pub-5740096341351637/3347360479" // Production ID
-                                   }
-                    )
                 }
             ) { innerPadding ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding) // WICHTIG: Verhindert Überlappung
-                ) {
-                    when (currentDestination) {
-                        AppDestinations.ABOUT -> AboutPage(primaryPurple)
-                        else -> {
                             ZakatPage(
                                 destination = currentDestination,
                                 accentColor = primaryPurple,
@@ -317,58 +235,6 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun AboutPage(accentColor: Color) {
-    val context = androidx.compose.ui.platform.LocalContext.current
-    val websiteUrl = stringResource(R.string.website_url)
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.app_logo),
-            contentDescription = null,
-            modifier = Modifier.size(128.dp)
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = stringResource(R.string.app_name),
-            color = Color.White,
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = stringResource(R.string.about_description),
-            color = Color.White,
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        androidx.compose.material3.Button(
-            onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
-                context.startActivity(intent)
-            },
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = accentColor)
-        ) {
-            Text(text = stringResource(R.string.about_website_button), color = Color.Black)
-        }
-    }
-}
 
 @Composable
 fun LanguageSelectButton(label: String, langCode: String) {
@@ -669,8 +535,6 @@ fun NisabInfoCard(
                     AnimalType.CAMELS -> "5"
                 }
             }
-
-            else -> "" to ""
         }
 
         Row(
@@ -741,38 +605,4 @@ fun ResultCard(result: String) {
             )
         }
     }
-}
-
-@Composable
-fun AdMobBanner(
-    modifier: Modifier = Modifier,
-    adUnitId: String
-) {
-    AndroidView(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp),
-        factory = { context ->
-            AdView(context).apply {
-                setAdSize(AdSize.BANNER)
-                this.adUnitId = adUnitId
-                adListener = object : com.google.android.gms.ads.AdListener() {
-                    override fun onAdLoaded() {
-                        android.util.Log.d("AdMob", "Werbung erfolgreich geladen!")
-                    }
-                    override fun onAdFailedToLoad(error: com.google.android.gms.ads.LoadAdError) {
-                        android.util.Log.e("AdMob", "Fehler beim Laden: ${error.message} (Code: ${error.code})")
-                    }
-                }
-                loadAd(AdRequest.Builder().build())
-            }
-        },
-        update = { adView ->
-            // Hier könnten Updates durchgeführt werden, falls sich die adUnitId ändert
-        },
-        onRelease = { adView ->
-            // WICHTIG: Ressourcen freigeben, um Memory Leaks zu vermeiden
-            adView.destroy()
-        }
-    )
 }
