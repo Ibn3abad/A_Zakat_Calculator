@@ -82,6 +82,8 @@ object ZakatCalculator {
                     underNisabText
                 }
             }
+
+            AppDestinations.ABOUT -> ""
         }
     }
 

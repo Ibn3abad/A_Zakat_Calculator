@@ -41,4 +41,8 @@
     <string name="liabilities_label">إجمالي الخصوم</string>
     <string name="res_base">الوعاء الزكوي:</string>
     <string name="res_zakat_amount">زكاة المال:</string>
+    <string name="cat_about">حول التطبيق</string>
+    <string name="about_website_button">زيارة الموقع</string>
+    <string name="about_description">تطبيق حاسبة الزكاة - قم بزيارة موقعنا لمزيد من المعلومات.</string>
+    <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
 </resources>

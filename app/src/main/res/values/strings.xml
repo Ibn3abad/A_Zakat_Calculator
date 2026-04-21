@@ -42,4 +42,8 @@
     <string name="res_under_nisab">Unter Nisab-Grenze</string>
     <string name="res_sheep_unit">Schaf(e)</string>
     <string name="res_output">Zakat-Ergebnis:</string>
+    <string name="cat_about">Über uns</string>
+    <string name="about_website_button">Webseite besuchen</string>
+    <string name="about_description">Zakat Rechner App - Besuche unsere Webseite für weitere Informationen.</string>
+    <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
 </resources>

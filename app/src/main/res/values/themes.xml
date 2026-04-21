@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main app theme -->
+    <style name="Theme.ZakatCalculator" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+    </style>
 
-    <style name="Theme.Zakat_Calculator" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Splash Screen theme -->
+    <style name="Theme.ZakatCalculator.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@android:color/black</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.ZakatCalculator</item>
+    </style>
 </resources>
