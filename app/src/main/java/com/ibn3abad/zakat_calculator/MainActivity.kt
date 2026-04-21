@@ -776,4 +776,3 @@ fun AdMobBanner(
         }
     )
 }
-
