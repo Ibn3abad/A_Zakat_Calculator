@@ -1,12 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.services)
 }
 
 android {
     namespace = "com.ibn3abad.zakat_calculator"
-    compileSdk = 36
+    compileSdk = 37
 
+    @Suppress("UnstableApiUsage")
     androidResources {
         localeFilters += listOf("de", "en", "fr", "ar")
     }
@@ -14,9 +16,9 @@ android {
     defaultConfig {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 11
-        versionName = "0.1"
+        targetSdk = 37
+        versionCode = 12
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,15 +57,16 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.material)
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.play.integrity)
+    implementation(libs.play.services.ads)
+    implementation(libs.user.messaging.platform)
+    implementation(libs.androidx.core.splashscreen)
 
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
-    implementation("com.google.android.play:integrity:1.6.0")
-    implementation("com.google.android.gms:play-services-ads:25.1.0")
-    implementation("com.google.android.ump:user-messaging-platform:4.0.0")
-
-    implementation("androidx.core:core-splashscreen:1.0.1")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

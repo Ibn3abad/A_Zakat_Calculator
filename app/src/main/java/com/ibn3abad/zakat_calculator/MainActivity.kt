@@ -1,7 +1,7 @@
 package com.ibn3abad.zakat_calculator
 
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -90,12 +90,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var consentInformation: ConsentInformation
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
+        enableEdgeToEdge()
         requestConsent()
 
-        enableEdgeToEdge()
         setContent {
             Zakat_CalculatorTheme {
                 ZakatCalculatorApp(zakatViewModel)
@@ -109,13 +109,19 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         consentInformation = UserMessagingPlatform.getConsentInformation(this)
+        
+        // Ensure we try to initialize ads if we already have consent
+        if (consentInformation.canRequestAds()) {
+            initializeMobileAdsSdk()
+        }
+
         consentInformation.requestConsentInfoUpdate(
             this,
             params,
             {
                 UserMessagingPlatform.loadAndShowConsentFormIfRequired(this) { loadAndShowError ->
                     if (loadAndShowError != null) {
-                        android.util.Log.w("Ads", "${loadAndShowError.errorCode}: ${loadAndShowError.message}")
+                        android.util.Log.w("Ads", "Consent form error: ${loadAndShowError.errorCode}: ${loadAndShowError.message}")
                     }
                     if (consentInformation.canRequestAds()) {
                         initializeMobileAdsSdk()
@@ -123,13 +129,13 @@ class MainActivity : AppCompatActivity() {
                 }
             },
             { requestConsentError ->
-                android.util.Log.w("Ads", "${requestConsentError.errorCode}: ${requestConsentError.message}")
+                android.util.Log.w("Ads", "Consent info update error: ${requestConsentError.errorCode}: ${requestConsentError.message}")
+                // In case of error (like timeout), attempt to initialize ads if permission was already granted previously
+                if (consentInformation.canRequestAds()) {
+                    initializeMobileAdsSdk()
+                }
             }
         )
-
-        if (consentInformation.canRequestAds()) {
-            initializeMobileAdsSdk()
-        }
     }
 
     private var isMobileAdsSdkInitialized = false
@@ -288,15 +294,15 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                     )
                 },
                 bottomBar = {
-                    AdMobBanner(
-                        // Google Test-ID für Banner (Immer zum Testen verwenden!)
-                        //adUnitId = "ca-app-pub-3940256099942544/6300978111"
-                        adUnitId = if (BuildConfig.DEBUG) {
-                            "ca-app-pub-3940256099942544/6300978111" // Test ID
-                        } else {
-                            "ca-app-pub-5740096341351637/3347360479" // Production ID
-                        }
-                    )
+                    Box(modifier = Modifier.background(Color.Black)) {
+                        AdMobBanner(
+                            adUnitId = if (BuildConfig.DEBUG) {
+                                "ca-app-pub-3940256099942544/6300978111" // Test ID
+                            } else {
+                                "ca-app-pub-5740096341351637/3347360479" // Production ID
+                            }
+                        )
+                    }
                 }
             ) { innerPadding ->
                 Box(
@@ -360,7 +366,7 @@ fun AboutPage(accentColor: Color) {
 
         androidx.compose.material3.Button(
             onClick = {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
+                val intent = Intent(Intent.ACTION_VIEW, websiteUrl.toUri())
                 context.startActivity(intent)
             },
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = accentColor)
@@ -748,30 +754,41 @@ fun AdMobBanner(
     modifier: Modifier = Modifier,
     adUnitId: String
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val canRequestAds = UserMessagingPlatform.getConsentInformation(context).canRequestAds()
+
+    if (!canRequestAds) {
+        Spacer(modifier = modifier.height(50.dp))
+        return
+    }
+
     AndroidView(
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp),
-        factory = { context ->
-            AdView(context).apply {
+        factory = { ctx ->
+            AdView(ctx).apply {
                 setAdSize(AdSize.BANNER)
                 this.adUnitId = adUnitId
                 adListener = object : com.google.android.gms.ads.AdListener() {
                     override fun onAdLoaded() {
                         android.util.Log.d("AdMob", "Werbung erfolgreich geladen!")
                     }
+
                     override fun onAdFailedToLoad(error: com.google.android.gms.ads.LoadAdError) {
-                        android.util.Log.e("AdMob", "Fehler beim Laden: ${error.message} (Code: ${error.code})")
+                        android.util.Log.e(
+                            "AdMob",
+                            "Fehler beim Laden: ${error.message} (Code: ${error.code})"
+                        )
                     }
                 }
                 loadAd(AdRequest.Builder().build())
             }
         },
-        update = { adView ->
+        update = { _ ->
             // Hier könnten Updates durchgeführt werden, falls sich die adUnitId ändert
         },
         onRelease = { adView ->
-            // WICHTIG: Ressourcen freigeben, um Memory Leaks zu vermeiden
             adView.destroy()
         }
     )

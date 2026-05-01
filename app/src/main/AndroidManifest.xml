@@ -11,8 +11,8 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:localeConfig="@xml/locales_config"
-        android:icon="@mipmap/ic_launcher_zakat"
-        android:roundIcon="@mipmap/ic_launcher_zakat_round"
+        android:icon="@drawable/app_logo"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="33" >
