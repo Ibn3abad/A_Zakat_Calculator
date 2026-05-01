@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8717051375",
+    "project_id": "json-server-abc41",
+    "storage_bucket": "json-server-abc41.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8717051375:android:66214b1a5df016b8d8c21a",
+        "android_client_info": {
+          "package_name": "com.ibn3abad.zakat_calculator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlFwYDdIhvRoYMoovgQdt77A3Hof4j058"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
