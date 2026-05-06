@@ -46,4 +46,23 @@
     <string name="about_website_button">Webseite besuchen</string>
     <string name="about_description">Zakat Rechner App - Besuche unsere Webseite für weitere Informationen.</string>
     <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
+
+    <string name="save_dialog_title">Berechnung speichern?</string>
+    <string name="save_dialog_text">Soll diese Berechnung für dieses Jahr gespeichert werden?</string>
+    <string name="save_dialog_note_label">Notiz (optional)</string>
+    <string name="save_dialog_confirm">Speichern</string>
+    <string name="save_dialog_dismiss">Abbrechen</string>
+
+    <string name="history_empty">Keine gespeicherten Berechnungen.</string>
+    <string name="history_year_label">Jahr %1$d</string>
+    <string name="history_total_label">Gesamt: %1$.2f €</string>
+    <string name="history_input_label">Eingabe: %1$s</string>
+    <string name="history_liabilities_label">Verbindlichkeiten: %1$s</string>
+    <string name="history_result_label">Ergebnis: %1$s</string>
+    <string name="history_note_label">Notiz: %1$s</string>
+    <string name="history_delete_content_description">Löschen</string>
+    <string name="save_button_content_description">Speichern</string>
+    <string name="share_file_title">Zakat-Berechnung</string>
+    <string name="share_chooser_title">Teilen über</string>
+    <string name="cat_history">Verlauf</string>
 </resources>

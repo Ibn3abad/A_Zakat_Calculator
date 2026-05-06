@@ -33,4 +33,27 @@
     <string name="res_zakat_amount">Zakat:</string>
     <string name="assets_label">Total Actifs</string>
     <string name="liabilities_label">Total Passifs</string>
+
+    <string name="save_dialog_title">Enregistrer le calcul ?</string>
+    <string name="save_dialog_text">Voulez-vous enregistrer ce calcul pour cette année ?</string>
+    <string name="save_dialog_note_label">Note (optionnelle)</string>
+    <string name="save_dialog_confirm">Enregistrer</string>
+    <string name="save_dialog_dismiss">Annuler</string>
+
+    <string name="history_empty">Aucun calcul enregistré.</string>
+    <string name="history_year_label">Année %1$d</string>
+    <string name="history_total_label">Total : %1$.2f €</string>
+    <string name="history_input_label">Entrée : %1$s</string>
+    <string name="history_liabilities_label">Passif : %1$s</string>
+    <string name="history_result_label">Résultat : %1$s</string>
+    <string name="history_note_label">Note : %1$s</string>
+    <string name="history_delete_content_description">Supprimer</string>
+    <string name="save_button_content_description">Enregistrer</string>
+    <string name="share_file_title">Calcul de la Zakat</string>
+    <string name="share_chooser_title">Partager via</string>
+    <string name="cat_history">Historique</string>
+    <string name="cat_about">À propos</string>
+    <string name="about_website_button">Visiter le site</string>
+    <string name="about_description">App Calculateur de Zakat - Visitez notre site pour plus d\'informations.</string>
+    <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
 </resources>

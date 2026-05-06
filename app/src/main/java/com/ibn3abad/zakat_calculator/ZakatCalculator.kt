@@ -83,7 +83,8 @@ object ZakatCalculator {
                 }
             }
 
-            AppDestinations.ABOUT -> ""
+            AppDestinations.ABOUT,
+            AppDestinations.VERLAUF -> ""
         }
     }
 

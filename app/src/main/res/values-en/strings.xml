@@ -33,4 +33,27 @@
     <string name="res_zakat_amount">Zakat:</string>
     <string name="assets_label">Total Assets</string>
     <string name="liabilities_label">Total Liabilities</string>
+
+    <string name="save_dialog_title">Save Calculation?</string>
+    <string name="save_dialog_text">Do you want to save this calculation for this year?</string>
+    <string name="save_dialog_note_label">Note (optional)</string>
+    <string name="save_dialog_confirm">Save</string>
+    <string name="save_dialog_dismiss">Cancel</string>
+
+    <string name="history_empty">No saved calculations.</string>
+    <string name="history_year_label">Year %1$d</string>
+    <string name="history_total_label">Total: %1$.2f €</string>
+    <string name="history_input_label">Input: %1$s</string>
+    <string name="history_liabilities_label">Liabilities: %1$s</string>
+    <string name="history_result_label">Result: %1$s</string>
+    <string name="history_note_label">Note: %1$s</string>
+    <string name="history_delete_content_description">Delete</string>
+    <string name="save_button_content_description">Save</string>
+    <string name="share_file_title">Zakat Calculation</string>
+    <string name="share_chooser_title">Share via</string>
+    <string name="cat_history">History</string>
+    <string name="cat_about">About</string>
+    <string name="about_website_button">Visit Website</string>
+    <string name="about_description">Zakat Calculator App - Visit our website for more information.</string>
+    <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
 </resources>

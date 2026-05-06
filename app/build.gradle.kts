@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.services)
+    alias(libs.plugins.legacy.kapt)
 }
 
 android {
@@ -17,8 +18,8 @@ android {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 37
-        versionCode = 12
-        versionName = "1.0"
+        versionCode = 14
+        versionName = "2.14"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +44,14 @@ android {
         compose = true
         buildConfig = true
     }
+}
+
+// Lifecycle tasks expected by the IDE but missing in built-in Kotlin mode
+tasks.register("unitTestClasses") {
+    dependsOn(tasks.matching { it.name.endsWith("UnitTestKotlin") })
+}
+tasks.register("androidTestClasses") {
+    dependsOn(tasks.matching { it.name.endsWith("AndroidTestKotlin") })
 }
 
 dependencies {
@@ -76,4 +85,16 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Room Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
+    // ViewModel mit Coroutines
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+
+    // Für Compose-zu-Bitmap (View-Capture)
+    implementation("androidx.compose.ui:ui-graphics:1.7.6")
 }

@@ -45,4 +45,23 @@
     <string name="about_website_button">زيارة الموقع</string>
     <string name="about_description">تطبيق حاسبة الزكاة - قم بزيارة موقعنا لمزيد من المعلومات.</string>
     <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>
+
+    <string name="save_dialog_title">حفظ العملية الحسابية؟</string>
+    <string name="save_dialog_text">هل تريد حفظ هذه العملية الحسابية لهذا العام؟</string>
+    <string name="save_dialog_note_label">ملاحظة (اختياري)</string>
+    <string name="save_dialog_confirm">حفظ</string>
+    <string name="save_dialog_dismiss">إلغاء</string>
+
+    <string name="history_empty">لا توجد عمليات حسابية محفوظة.</string>
+    <string name="history_year_label">عام %1$d</string>
+    <string name="history_total_label">الإجمالي: %1$.2f €</string>
+    <string name="history_input_label">المدخلات: %1$s</string>
+    <string name="history_liabilities_label">الخصوم: %1$s</string>
+    <string name="history_result_label">النتيجة: %1$s</string>
+    <string name="history_note_label">ملاحظة: %1$s</string>
+    <string name="history_delete_content_description">حذف</string>
+    <string name="save_button_content_description">حفظ</string>
+    <string name="share_file_title">حساب الزكاة</string>
+    <string name="share_chooser_title">مشاركة عبر</string>
+    <string name="cat_history">السجل</string>
 </resources>

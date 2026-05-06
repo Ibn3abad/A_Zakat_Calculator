@@ -28,6 +28,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -56,6 +57,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,6 +70,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
 import com.ibn3abad.zakat_calculator.ui.theme.Zakat_CalculatorTheme
+import com.ibn3abad.zakat_calculator.ui.SaveCalculationDialog
+import com.ibn3abad.zakat_calculator.ui.HistoryScreen
 import kotlinx.coroutines.launch
 
 import com.google.android.gms.ads.MobileAds
@@ -163,6 +167,8 @@ enum class AppDestinations(val labelRes: Int, val iconRes: Int) {
     SILBER(R.string.cat_silver, R.drawable.silver_64x64),
     ERNTE(R.string.cat_harvest, R.drawable.ernte_64x64),
     TIERE(R.string.cat_animals, R.drawable.tiere_64x64),
+    //VERLAUF(R.string.cat_history, R.drawable.verlauf_64x64),
+    VERLAUF(R.string.cat_history, R.drawable.app_logo),
     ABOUT(R.string.cat_about, R.drawable.app_logo),
 }
 
@@ -311,6 +317,9 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                         .padding(innerPadding) // WICHTIG: Verhindert Überlappung
                 ) {
                     when (currentDestination) {
+                        AppDestinations.VERLAUF -> {
+                            HistoryScreen(viewModel = viewModel)
+                        }
                         AppDestinations.ABOUT -> AboutPage(primaryPurple)
                         else -> {
                             ZakatPage(
@@ -417,6 +426,9 @@ fun ZakatPage(
 
     val zakatBase = viewModel.getZakatBase(destination)
     val shouldShowResult = viewModel.shouldShowResult(destination)
+
+    var showSaveDialog by remember { mutableStateOf(false) }
+    var currentResultText by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -589,8 +601,20 @@ fun ZakatPage(
                 resCamelRuleText = resCamelRuleText
             )
 
-            ResultCard(result = resultText)
+            currentResultText = resultText
+            ResultCard(result = resultText, onSave = { showSaveDialog = true })
         }
+    }
+
+    if (showSaveDialog) {
+        SaveCalculationDialog(
+            resultPreview = currentResultText,
+            onDismiss = { showSaveDialog = false },
+            onConfirm = { note ->
+                viewModel.saveCalculation(destination, currentResultText, note)
+                showSaveDialog = false
+            }
+        )
     }
 }
 
@@ -725,7 +749,7 @@ fun DecimalInputField(
 }
 
 @Composable
-fun ResultCard(result: String) {
+fun ResultCard(result: String, onSave: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF311B92).copy(alpha = 0.9f)
@@ -739,12 +763,26 @@ fun ResultCard(result: String) {
                 fontSize = 12.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = result,
-                color = Color.White,
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.ExtraBold
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = result,
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    modifier = Modifier.weight(1f)
+                )
+                IconButton(onClick = onSave) {
+                    Icon(
+                        imageVector = Icons.Default.Save,
+                        contentDescription = stringResource(R.string.save_button_content_description),
+                        tint = Color.White
+                    )
+                }
+            }
         }
     }
 }
