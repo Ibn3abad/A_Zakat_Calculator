@@ -1,3 +1,13 @@
+/**
+ * @author     A. KHOUK
+ * @date       06.04.2026
+ * @version    2.15
+ * @copyright  Copyright (c) 2026, A. KHOUK.
+ * @license    This program is free software: you can redistribute it and/or modify
+ *             it under the terms of the GNU General Public License as published by
+ *             the Free Software Foundation, either version 3 of the License, or
+ *             (at your option) any later version.
+ */
 package com.ibn3abad.zakat_calculator
 
 import android.content.Intent
@@ -339,11 +349,13 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
 fun AboutPage(accentColor: Color) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val websiteUrl = stringResource(R.string.website_url)
+    val githubUrl = stringResource(R.string.github_url)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(20.dp),
+            .padding(20.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -371,16 +383,42 @@ fun AboutPage(accentColor: Color) {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
         androidx.compose.material3.Button(
             onClick = {
                 val intent = Intent(Intent.ACTION_VIEW, websiteUrl.toUri())
                 context.startActivity(intent)
             },
+            modifier = Modifier.fillMaxWidth(0.8f),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = accentColor)
         ) {
             Text(text = stringResource(R.string.about_website_button), color = Color.Black)
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+        HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(horizontal = 32.dp))
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = stringResource(R.string.about_opensource_text),
+            color = Color.Gray,
+            fontSize = 14.sp,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        androidx.compose.material3.OutlinedButton(
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, githubUrl.toUri())
+                context.startActivity(intent)
+            },
+            modifier = Modifier.fillMaxWidth(0.8f),
+            border = BorderStroke(1.dp, accentColor)
+        ) {
+            Text(text = stringResource(R.string.about_github_button), color = accentColor)
         }
     }
 }

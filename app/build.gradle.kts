@@ -18,8 +18,8 @@ android {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 37
-        versionCode = 14
-        versionName = "2.14"
+        versionCode = 15
+        versionName = "2.15"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -90,11 +90,4 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.room.compiler)
-
-    // ViewModel mit Coroutines
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-
-    // Für Compose-zu-Bitmap (View-Capture)
-    implementation("androidx.compose.ui:ui-graphics:1.7.6")
 }
