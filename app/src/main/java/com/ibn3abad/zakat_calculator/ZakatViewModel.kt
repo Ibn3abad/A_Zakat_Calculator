@@ -8,10 +8,12 @@
  *             the Free Software Foundation, either version 3 of the License, or
  *             (at your option) any later version.
  */
+
 package com.ibn3abad.zakat_calculator
 
 import android.app.Application
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
@@ -41,9 +43,6 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
 
     var nisabTypeForLiquid by mutableStateOf(0)
         private set
-
-    val goldPricePerGram = 143.22
-    val silverPricePerGram = 0.82
 
     val nisabGoldEuro: Double
         get() = 85 * goldPricePerGram
@@ -130,5 +129,21 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
     fun resetInputs() {
         inputValue = ""
         inputLiabilities = ""
+    }
+
+    private val repo = MetalPriceRepository(application)
+
+    var goldPricePerGram by mutableDoubleStateOf(143.22)
+        private set
+    var silverPricePerGram by mutableDoubleStateOf(0.82)
+        private set
+
+    init {
+        viewModelScope.launch {
+            repo.getPrice()?.let {
+                goldPricePerGram = it.gold_gram_eur
+                silverPricePerGram = it.silver_gram_eur
+            }
+        }
     }
 }

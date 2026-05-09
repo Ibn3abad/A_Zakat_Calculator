@@ -9,6 +9,7 @@ lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
 material = "1.12.0"
 kotlin = "2.2.10"
+kotlinxSerializationJson = "1.8.0"
 composeBom = "2026.03.01"
 appcompat = "1.7.1"
 lifecycleViewmodelCompose = "2.10.0"
@@ -50,6 +51,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 legacy-kapt = { id = "com.android.legacy-kapt", version.ref = "legacy-kapt" }
@@ -57,4 +59,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

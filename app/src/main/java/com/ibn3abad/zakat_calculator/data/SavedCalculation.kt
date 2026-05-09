@@ -8,6 +8,7 @@
  *             the Free Software Foundation, either version 3 of the License, or
  *             (at your option) any later version.
  */
+
 package com.ibn3abad.zakat_calculator.data
 
 import androidx.room.Entity
