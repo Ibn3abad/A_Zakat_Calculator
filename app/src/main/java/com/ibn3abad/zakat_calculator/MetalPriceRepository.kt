@@ -23,7 +23,7 @@ class MetalPriceRepository(private val context: Context) {
     companion object {
         // Deine Supabase-Werte
         private const val SUPABASE_URL = "https://olkifxyhpqdwlldbuqnb.supabase.co"
-        private const val SUPABASE_ANON_KEY = "sb_publishable_tLyFyHduXH7dTQsVrjy2MA_FvXC7KU5"
+        private const val SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sa2lmeHlocHFkd2xsZGJ1cW5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzNDQ2MDYsImV4cCI6MjA5MzkyMDYwNn0.HIOV8Lj6Bilno8nT9a-v6-7jQmUhfjo9-RHQ9QghkX0"
 
         private const val PREFS_NAME = "metal_prices"
         private const val KEY_PRICE_DATE = "price_date"
@@ -41,10 +41,15 @@ class MetalPriceRepository(private val context: Context) {
      */
     suspend fun getPrice(): MetalPrice? {
         val cached = getCached()
-        if (cached != null && !isOlderThan30Days()) {
-            return cached
+        // Wenn kein Cache da ist, oder Daten zu alt (24h), oder Goldpreis ungültig (<= 0) -> Neu laden
+        if (cached == null || isOlderThan24Hours() || cached.gold_gram_eur <= 0) {
+            val fresh = fetchFromSupabase()
+            if (fresh != null) {
+                saveToCache(fresh)
+                return fresh
+            }
         }
-        return fetchFromSupabase()?.also { saveToCache(it) }
+        return cached
     }
 
     private suspend fun fetchFromSupabase(): MetalPrice? = withContext(Dispatchers.IO) {
@@ -57,23 +62,35 @@ class MetalPriceRepository(private val context: Context) {
             connection.setRequestProperty("apikey", SUPABASE_ANON_KEY)
             connection.setRequestProperty("Authorization", "Bearer $SUPABASE_ANON_KEY")
             connection.setRequestProperty("Accept", "application/json")
+            connection.connectTimeout = 10000
+            connection.readTimeout = 10000
+
+            val responseCode = connection.responseCode
+            if (responseCode != 200) {
+                val errorMsg = connection.errorStream?.bufferedReader()?.readText()
+                android.util.Log.e("MetalPriceRepo", "Fehler von Supabase ($responseCode): $errorMsg")
+                connection.disconnect()
+                return@withContext null
+            }
 
             val response = connection.inputStream.bufferedReader().readText()
             connection.disconnect()
 
-            // PostgREST gibt ein Array zurück
-            val array = Json.parseToJsonElement(response).jsonArray
-            if (array.isEmpty()) return@withContext null
+            val jsonElement = Json.parseToJsonElement(response)
+            if (jsonElement !is JsonArray || jsonElement.isEmpty()) {
+                android.util.Log.w("MetalPriceRepo", "Keine Daten gefunden oder falsches Format: $response")
+                return@withContext null
+            }
 
-            val obj = array[0].jsonObject
+            val obj = jsonElement[0].jsonObject
             MetalPrice(
-                price_date = obj["price_date"]!!.jsonPrimitive.content,
-                gold_gram_eur = obj["gold_gram_eur"]!!.jsonPrimitive.double,
-                silver_gram_eur = obj["silver_gram_eur"]!!.jsonPrimitive.double,
-                usdeur = obj["usdeur"]!!.jsonPrimitive.double
+                price_date = obj["price_date"]?.jsonPrimitive?.content ?: "---",
+                gold_gram_eur = obj["gold_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
+                silver_gram_eur = obj["silver_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
+                usdeur = obj["usdeur"]?.jsonPrimitive?.double ?: 1.0
             )
         } catch (e: Exception) {
-            e.printStackTrace()
+            android.util.Log.e("MetalPriceRepo", "Netzwerkfehler: ${e.message}")
             null
         }
     }
@@ -98,9 +115,9 @@ class MetalPriceRepository(private val context: Context) {
             .apply()
     }
 
-    private fun isOlderThan30Days(): Boolean {
+    private fun isOlderThan24Hours(): Boolean {
         val lastFetch = prefs.getLong("last_fetch_timestamp", 0L)
-        val thirtyDaysInMillis = 30L * 24 * 60 * 60 * 1000
-        return System.currentTimeMillis() - lastFetch > thirtyDaysInMillis
+        val oneDayInMillis = 24L * 60 * 60 * 1000
+        return System.currentTimeMillis() - lastFetch > oneDayInMillis
     }
 }

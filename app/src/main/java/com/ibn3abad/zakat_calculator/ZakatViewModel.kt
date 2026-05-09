@@ -104,6 +104,30 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
         year: Int = Calendar.getInstance().get(Calendar.YEAR)
     ) {
         viewModelScope.launch {
+            val (nType, nValue) = when (destination) {
+                AppDestinations.LIQUIDITAET, AppDestinations.FIRMA, AppDestinations.AKTIEN -> {
+                    if (nisabTypeForLiquid == 0) "Gold" to "${formatNumber(nisabGoldEuro, 0)} €"
+                    else "Silber" to "${formatNumber(nisabSilverEuro, 0)} €"
+                }
+                AppDestinations.GOLD -> "Gold" to "85 g"
+                AppDestinations.SILBER -> "Silber" to "595 g"
+                AppDestinations.ERNTE -> "Ernte" to "650 kg"
+                AppDestinations.TIERE -> {
+                    val animal = when (animalType) {
+                        AnimalType.SHEEP -> "Schafe"
+                        AnimalType.COWS -> "Kühe"
+                        AnimalType.CAMELS -> "Kamele"
+                    }
+                    val limit = when (animalType) {
+                        AnimalType.SHEEP -> "40"
+                        AnimalType.COWS -> "30"
+                        AnimalType.CAMELS -> "5"
+                    }
+                    animal to limit
+                }
+                else -> "" to ""
+            }
+
             dao.insert(
                 SavedCalculation(
                     year = year,
@@ -112,7 +136,9 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
                     inputValue = inputValue,
                     liabilities = inputLiabilities,
                     resultText = resultText,
-                    note = note
+                    note = note,
+                    nisabType = nType,
+                    nisabValue = nValue
                 )
             )
         }
@@ -137,12 +163,18 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
         private set
     var silverPricePerGram by mutableDoubleStateOf(0.82)
         private set
+    var priceDate by mutableStateOf("Lade...")
+        private set
 
     init {
         viewModelScope.launch {
-            repo.getPrice()?.let {
-                goldPricePerGram = it.gold_gram_eur
-                silverPricePerGram = it.silver_gram_eur
+            val price = repo.getPrice()
+            if (price != null) {
+                goldPricePerGram = price.gold_gram_eur
+                silverPricePerGram = price.silver_gram_eur
+                priceDate = price.price_date
+            } else {
+                priceDate = "Offline"
             }
         }
     }

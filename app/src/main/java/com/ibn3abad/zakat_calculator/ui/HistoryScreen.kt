@@ -99,6 +99,9 @@ private fun CalculationCard(
             if (calc.liabilities.isNotBlank()) {
                 Text(stringResource(R.string.history_liabilities_label, calc.liabilities))
             }
+            if (calc.nisabValue.isNotBlank()) {
+                Text(stringResource(R.string.history_nisab_label, calc.nisabType, calc.nisabValue))
+            }
             Text(
                 stringResource(R.string.history_result_label, calc.resultText),
                 style = MaterialTheme.typography.bodyLarge

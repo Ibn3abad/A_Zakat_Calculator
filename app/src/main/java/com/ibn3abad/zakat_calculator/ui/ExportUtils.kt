@@ -44,15 +44,28 @@ private fun lines(context: Context, calc: SavedCalculation): List<String> {
     val dateStr = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()).format(Date(calc.timestamp))
     val categoryLabel = getCategoryLabel(context, calc.category)
     
+    val suffix = when (calc.category) {
+        "ERNTE" -> "kg"
+        "TIERE" -> context.getString(R.string.unit_pieces)
+        "GOLD", "SILBER" -> "g"
+        else -> "€"
+    }
+
+    val inputWithUnit = "${calc.inputValue} $suffix"
+    val liabilitiesWithUnit = if (calc.liabilities.isNotBlank()) "${calc.liabilities} €" else ""
+    
     val list = mutableListOf(
         context.getString(R.string.share_file_title),
         "",
         context.getString(R.string.history_year_label, calc.year),
         "Kategorie: $categoryLabel",
-        context.getString(R.string.history_input_label, calc.inputValue)
+        context.getString(R.string.history_input_label, inputWithUnit)
     )
-    if (calc.liabilities.isNotBlank()) {
-        list += context.getString(R.string.history_liabilities_label, calc.liabilities)
+    if (liabilitiesWithUnit.isNotBlank()) {
+        list += context.getString(R.string.history_liabilities_label, liabilitiesWithUnit)
+    }
+    if (calc.nisabValue.isNotBlank()) {
+        list += context.getString(R.string.history_nisab_label, calc.nisabType, calc.nisabValue)
     }
     list += context.getString(R.string.history_result_label, calc.resultText)
     if (calc.note.isNotBlank()) {

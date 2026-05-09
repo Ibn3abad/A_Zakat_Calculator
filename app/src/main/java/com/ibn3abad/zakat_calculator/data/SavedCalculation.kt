@@ -23,5 +23,7 @@ data class SavedCalculation(
     val inputValue: String,     // Was der Benutzer eingegeben hat
     val liabilities: String,    // Nur für FIRMA, sonst leer
     val resultText: String,     // Das berechnete Ergebnis
-    val note: String = ""       // Optionale Notiz vom Benutzer
+    val note: String = "",      // Optionale Notiz vom Benutzer
+    val nisabType: String = "", // z.B. "Gold" oder "Silber"
+    val nisabValue: String = "" // z.B. "5.300 €"
 )

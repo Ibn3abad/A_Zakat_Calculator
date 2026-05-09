@@ -9,6 +9,7 @@
     <string name="cat_harvest">الزراعة</string>
     <string name="cat_animals">الأنعام</string>
     <string name="market_nisab_title">قيمة النصاب الحالية (السوق):</string>
+    <string name="price_date_label">الأسعار بتاريخ: %1$s</string>
     <string name="gold">الذهب</string>
     <string name="silver">الفضة</string>
     <string name="nisab_label">النصاب (المختار):</string>
@@ -61,6 +62,7 @@
     <string name="history_input_label">المدخلات: %1$s</string>
     <string name="history_liabilities_label">الخصوم: %1$s</string>
     <string name="history_result_label">النتيجة: %1$s</string>
+    <string name="history_nisab_label">النصاب (%1$s): %2$s</string>
     <string name="history_note_label">ملاحظة: %1$s</string>
     <string name="history_delete_content_description">حذف</string>
     <string name="save_button_content_description">حفظ</string>

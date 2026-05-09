@@ -9,6 +9,7 @@
     <string name="cat_harvest">Récolte</string>
     <string name="cat_animals">Animaux</string>
     <string name="market_nisab_title">Valeur actuelle du Nisab (Marché) :</string>
+    <string name="price_date_label">Prix du : %1$s</string>
     <string name="gold">Or</string>
     <string name="silver">Argent</string>
     <string name="nisab_label">Nisab (sélectionné) :</string>
@@ -21,6 +22,10 @@
     <string name="input_label">Votre montant</string>
     <string name="result_label">Résultat de la Zakat :</string>
     <string name="under_nisab">Sous le seuil du Nisab</string>
+    <string name="animal_sheep">Moutons</string>
+    <string name="animal_cows">Vaches</string>
+    <string name="animal_camels">Chameaux</string>
+    <string name="unit_pieces">pièces</string>
     <string name="res_tabi">Tabi\' (1 an)</string>
     <string name="res_musinnah">Musinnah (2 ans)</string>
     <string name="res_bint_makhad">Bint Makhad</string>
@@ -46,6 +51,7 @@
     <string name="history_input_label">Entrée : %1$s</string>
     <string name="history_liabilities_label">Passif : %1$s</string>
     <string name="history_result_label">Résultat : %1$s</string>
+    <string name="history_nisab_label">Nisab (%1$s) : %2$s</string>
     <string name="history_note_label">Note : %1$s</string>
     <string name="history_delete_content_description">Supprimer</string>
     <string name="save_button_content_description">Enregistrer</string>

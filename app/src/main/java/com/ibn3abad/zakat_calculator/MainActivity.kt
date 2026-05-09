@@ -479,6 +479,7 @@ fun ZakatPage(
         MarketNisabCard(
             nisabGoldEuro = viewModel.nisabGoldEuro,
             nisabSilverEuro = viewModel.nisabSilverEuro,
+            priceDate = viewModel.priceDate,
             accentColor = accentColor
         )
 
@@ -661,6 +662,7 @@ fun ZakatPage(
 fun MarketNisabCard(
     nisabGoldEuro: Double,
     nisabSilverEuro: Double,
+    priceDate: String,
     accentColor: Color
 ) {
     Card(
@@ -675,6 +677,16 @@ fun MarketNisabCard(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
+
+            if (priceDate.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.price_date_label, priceDate),
+                    color = Color.Gray,
+                    fontSize = 10.sp
+                )
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),

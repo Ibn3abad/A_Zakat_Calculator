@@ -18,7 +18,7 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [SavedCalculation::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class ZakatDatabase : RoomDatabase() {
@@ -35,7 +35,9 @@ abstract class ZakatDatabase : RoomDatabase() {
                     context.applicationContext,
                     ZakatDatabase::class.java,
                     "zakat_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

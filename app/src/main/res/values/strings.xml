@@ -9,6 +9,7 @@
     <string name="cat_harvest">Ernte</string>
     <string name="cat_animals">Tiere</string>
     <string name="market_nisab_title">Aktueller Nisab-Wert (Markt):</string>
+    <string name="price_date_label">Preise vom: %1$s</string>
     <string name="gold">Gold</string>
     <string name="silver">Silber</string>
     <string name="nisab_label">Nisab (gewählt):</string>
@@ -62,6 +63,7 @@
     <string name="history_input_label">Eingabe: %1$s</string>
     <string name="history_liabilities_label">Verbindlichkeiten: %1$s</string>
     <string name="history_result_label">Ergebnis: %1$s</string>
+    <string name="history_nisab_label">Nisab (%1$s): %2$s</string>
     <string name="history_note_label">Notiz: %1$s</string>
     <string name="history_delete_content_description">Löschen</string>
     <string name="save_button_content_description">Speichern</string>
