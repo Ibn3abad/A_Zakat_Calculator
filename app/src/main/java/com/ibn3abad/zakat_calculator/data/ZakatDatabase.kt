@@ -36,7 +36,7 @@ abstract class ZakatDatabase : RoomDatabase() {
                     ZakatDatabase::class.java,
                     "zakat_database"
                 )
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration(true)
                     .build()
                 INSTANCE = instance
                 instance
