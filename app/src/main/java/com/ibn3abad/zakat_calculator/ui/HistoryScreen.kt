@@ -24,8 +24,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ibn3abad.zakat_calculator.R
 import com.ibn3abad.zakat_calculator.ZakatViewModel
@@ -42,7 +44,11 @@ fun HistoryScreen(viewModel: ZakatViewModel) {
 
     if (items.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
-            Text(stringResource(R.string.history_empty))
+            Text(
+                text = stringResource(R.string.history_empty),
+                color = Color.White,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
         return
     }
@@ -55,7 +61,8 @@ fun HistoryScreen(viewModel: ZakatViewModel) {
             item {
                 Text(
                     text = stringResource(R.string.history_year_label, year),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White
                 )
                 // Gesamtsumme für das Jahr (nur €-Werte) – optional
                 val yearTotal = items
@@ -64,8 +71,9 @@ fun HistoryScreen(viewModel: ZakatViewModel) {
                     .sum()
                 if (yearTotal > 0) {
                     Text(
-                        stringResource(R.string.history_total_label, yearTotal),
-                        style = MaterialTheme.typography.bodyMedium
+                        text = stringResource(R.string.history_total_label, yearTotal),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.LightGray
                     )
                 }
             }
@@ -90,24 +98,32 @@ private fun CalculationCard(
 ) {
     val dateFmt = remember { SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault()) }
 
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color(0xFF2C2C2C),
+            contentColor = Color.White
+        )
+    ) {
         Column(Modifier.padding(16.dp)) {
-            Text(calc.category, style = MaterialTheme.typography.titleMedium)
-            Text(dateFmt.format(Date(calc.timestamp)), style = MaterialTheme.typography.bodySmall)
+            Text(calc.category, style = MaterialTheme.typography.titleMedium, color = Color.White)
+            Text(dateFmt.format(Date(calc.timestamp)), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
             Spacer(Modifier.height(8.dp))
-            Text(stringResource(R.string.history_input_label, calc.inputValue))
+            Text(stringResource(R.string.history_input_label, calc.inputValue), color = Color.White)
             if (calc.liabilities.isNotBlank()) {
-                Text(stringResource(R.string.history_liabilities_label, calc.liabilities))
+                Text(stringResource(R.string.history_liabilities_label, calc.liabilities), color = Color.White)
             }
             if (calc.nisabValue.isNotBlank()) {
-                Text(stringResource(R.string.history_nisab_label, calc.nisabType, calc.nisabValue))
+                Text(stringResource(R.string.history_nisab_label, calc.nisabType, calc.nisabValue), color = Color.White)
             }
             Text(
                 stringResource(R.string.history_result_label, calc.resultText),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.White,
+                fontWeight = FontWeight.Bold
             )
             if (calc.note.isNotBlank()) {
-                Text(stringResource(R.string.history_note_label, calc.note))
+                Text(stringResource(R.string.history_note_label, calc.note), color = Color.LightGray)
             }
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

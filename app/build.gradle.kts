@@ -19,8 +19,8 @@ android {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 37
-        versionCode = 16
-        versionName = "2.16"
+        versionCode = 17
+        versionName = "2.17"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
