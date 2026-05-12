@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -19,16 +19,14 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ibn3abad.zakat_calculator.AppDestinations
 import com.ibn3abad.zakat_calculator.R
 import com.ibn3abad.zakat_calculator.ZakatViewModel
 import com.ibn3abad.zakat_calculator.data.SavedCalculation
@@ -41,6 +39,28 @@ fun HistoryScreen(viewModel: ZakatViewModel) {
     val context = LocalContext.current
     val items by viewModel.savedCalculations.collectAsState()
     val years by viewModel.savedYears.collectAsState()
+    var itemToDelete by remember { mutableStateOf<SavedCalculation?>(null) }
+
+    if (itemToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { itemToDelete = null },
+            title = { Text(stringResource(R.string.delete_dialog_title)) },
+            text = { Text(stringResource(R.string.delete_dialog_text)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    itemToDelete?.let { viewModel.deleteCalculation(it) }
+                    itemToDelete = null
+                }) {
+                    Text(stringResource(R.string.delete_dialog_confirm), color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { itemToDelete = null }) {
+                    Text(stringResource(R.string.delete_dialog_dismiss))
+                }
+            }
+        )
+    }
 
     if (items.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = androidx.compose.ui.Alignment.Center) {
@@ -80,7 +100,7 @@ fun HistoryScreen(viewModel: ZakatViewModel) {
             items(items.filter { it.year == year }) { calc ->
                 CalculationCard(
                     calc = calc,
-                    onDelete = { viewModel.deleteCalculation(calc) },
+                    onDelete = { itemToDelete = calc },
                     onSharePdf = { sharePdf(context, calc) },
                     onShareImage = { shareImage(context, calc) }
                 )
@@ -106,15 +126,39 @@ private fun CalculationCard(
         )
     ) {
         Column(Modifier.padding(16.dp)) {
-            Text(calc.category, style = MaterialTheme.typography.titleMedium, color = Color.White)
+            val destination = remember(calc.category) {
+                try {
+                    AppDestinations.valueOf(calc.category)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+            val categoryLabel = if (destination != null) {
+                stringResource(destination.labelRes)
+            } else {
+                calc.category
+            }
+
+            Text(categoryLabel, style = MaterialTheme.typography.titleMedium, color = Color.White)
             Text(dateFmt.format(Date(calc.timestamp)), style = MaterialTheme.typography.bodySmall, color = Color.Gray)
             Spacer(Modifier.height(8.dp))
             Text(stringResource(R.string.history_input_label, calc.inputValue), color = Color.White)
             if (calc.liabilities.isNotBlank()) {
                 Text(stringResource(R.string.history_liabilities_label, calc.liabilities), color = Color.White)
             }
+
+            val localizedNisabType = when (calc.nisabType) {
+                "Gold" -> stringResource(R.string.gold)
+                "Silber", "Silver" -> stringResource(R.string.silver)
+                "Ernte", "Harvest" -> stringResource(R.string.cat_harvest)
+                "Schafe", "Sheep" -> stringResource(R.string.animal_sheep)
+                "Kühe", "Cows" -> stringResource(R.string.animal_cows)
+                "Kamele", "Camels" -> stringResource(R.string.animal_camels)
+                else -> calc.nisabType
+            }
+
             if (calc.nisabValue.isNotBlank()) {
-                Text(stringResource(R.string.history_nisab_label, calc.nisabType, calc.nisabValue), color = Color.White)
+                Text(stringResource(R.string.history_nisab_label, localizedNisabType, calc.nisabValue), color = Color.White)
             }
             Text(
                 stringResource(R.string.history_result_label, calc.resultText),

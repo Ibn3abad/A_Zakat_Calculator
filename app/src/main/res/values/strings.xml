@@ -58,6 +58,11 @@
     <string name="save_dialog_confirm">Speichern</string>
     <string name="save_dialog_dismiss">Abbrechen</string>
 
+    <string name="delete_dialog_title">Löschen bestätigen</string>
+    <string name="delete_dialog_text">Möchten Sie diese Berechnung wirklich löschen?</string>
+    <string name="delete_dialog_confirm">Löschen</string>
+    <string name="delete_dialog_dismiss">Abbrechen</string>
+
     <string name="history_empty">Keine gespeicherten Berechnungen.</string>
     <string name="history_year_label">Jahr %1$d</string>
     <string name="history_total_label">Gesamt: %1$.2f €</string>

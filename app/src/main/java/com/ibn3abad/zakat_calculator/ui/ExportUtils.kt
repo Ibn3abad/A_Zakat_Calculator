@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@ import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.pdf.PdfDocument
 import androidx.core.content.FileProvider
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
+import androidx.core.graphics.toColorInt
 import com.ibn3abad.zakat_calculator.AppDestinations
 import com.ibn3abad.zakat_calculator.R
 import com.ibn3abad.zakat_calculator.data.SavedCalculation
@@ -35,7 +38,7 @@ private fun getCategoryLabel(context: Context, categoryName: String): String {
     return try {
         val dest = AppDestinations.valueOf(categoryName)
         context.getString(dest.labelRes)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         categoryName
     }
 }
@@ -84,7 +87,7 @@ fun createPdf(context: Context, calc: SavedCalculation): File {
     val page = pdf.startPage(pageInfo)
     val canvas = page.canvas
 
-    val primaryColor = Color.parseColor("#6650a4")
+    val primaryColor = "#6650a4".toColorInt()
     
     // Header
     val headerPaint = Paint().apply { color = primaryColor }
@@ -93,7 +96,7 @@ fun createPdf(context: Context, calc: SavedCalculation): File {
     // Logo im Header
     val logo = BitmapFactory.decodeResource(context.resources, R.drawable.app_logo)
     if (logo != null) {
-        val scaledLogo = Bitmap.createScaledBitmap(logo, 70, 70, true)
+        val scaledLogo = logo.scale(70, 70)
         canvas.drawBitmap(scaledLogo, 40f, 15f, null)
     }
 
@@ -163,11 +166,11 @@ fun createPdf(context: Context, calc: SavedCalculation): File {
 fun createImage(context: Context, calc: SavedCalculation): File {
     val width = 1080
     val height = 1350
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height)
     val canvas = Canvas(bitmap)
     canvas.drawColor(Color.WHITE)
 
-    val primaryColor = Color.parseColor("#6650a4")
+    val primaryColor = "#6650a4".toColorInt()
     
     // Header
     val headerRect = Rect(0, 0, width, 250)
@@ -176,7 +179,7 @@ fun createImage(context: Context, calc: SavedCalculation): File {
     // Logo im Header
     val logo = BitmapFactory.decodeResource(context.resources, R.drawable.app_logo)
     if (logo != null) {
-        val scaledLogo = Bitmap.createScaledBitmap(logo, 180, 180, true)
+        val scaledLogo = logo.scale(180, 180)
         canvas.drawBitmap(scaledLogo, 80f, 35f, null)
     }
 

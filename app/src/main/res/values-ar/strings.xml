@@ -57,6 +57,11 @@
     <string name="save_dialog_confirm">حفظ</string>
     <string name="save_dialog_dismiss">إلغاء</string>
 
+    <string name="delete_dialog_title">تأكيد الحذف</string>
+    <string name="delete_dialog_text">هل أنت متأكد أنك تريد حذف هذه العملية الحسابية؟</string>
+    <string name="delete_dialog_confirm">حذف</string>
+    <string name="delete_dialog_dismiss">إلغاء</string>
+
     <string name="history_empty">لا توجد عمليات حسابية محفوظة.</string>
     <string name="history_year_label">عام %1$d</string>
     <string name="history_total_label">الإجمالي: %1$.2f €</string>

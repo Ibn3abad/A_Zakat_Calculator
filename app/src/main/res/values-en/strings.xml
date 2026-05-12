@@ -45,6 +45,11 @@
     <string name="save_dialog_confirm">Save</string>
     <string name="save_dialog_dismiss">Cancel</string>
 
+    <string name="delete_dialog_title">Confirm Delete</string>
+    <string name="delete_dialog_text">Are you sure you want to delete this calculation?</string>
+    <string name="delete_dialog_confirm">Delete</string>
+    <string name="delete_dialog_dismiss">Cancel</string>
+
     <string name="history_empty">No saved calculations.</string>
     <string name="history_year_label">Year %1$d</string>
     <string name="history_total_label">Total: %1$.2f €</string>

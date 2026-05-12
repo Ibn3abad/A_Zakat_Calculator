@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 
 package com.ibn3abad.zakat_calculator.ui.theme
 
-import android.app.Activity
+//import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

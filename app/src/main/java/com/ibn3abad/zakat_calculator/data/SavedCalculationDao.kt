@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -26,14 +26,8 @@ interface SavedCalculationDao {
     @Delete
     suspend fun delete(calculation: SavedCalculation)
 
-    @Query("DELETE FROM saved_calculations WHERE id = :id")
-    suspend fun deleteById(id: Long)
-
     @Query("SELECT * FROM saved_calculations ORDER BY year DESC, timestamp DESC")
     fun getAll(): Flow<List<SavedCalculation>>
-
-    @Query("SELECT * FROM saved_calculations WHERE year = :year ORDER BY timestamp DESC")
-    fun getByYear(year: Int): Flow<List<SavedCalculation>>
 
     @Query("SELECT DISTINCT year FROM saved_calculations ORDER BY year DESC")
     fun getAllYears(): Flow<List<Int>>

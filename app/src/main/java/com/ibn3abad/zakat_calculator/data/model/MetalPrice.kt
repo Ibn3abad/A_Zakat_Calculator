@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -11,9 +11,17 @@
 
 package com.ibn3abad.zakat_calculator.data.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class MetalPrice(
-    val price_date: String,
-    val gold_gram_eur: Double,
-    val silver_gram_eur: Double,
-    val usdeur: Double
+    @SerialName("price_date")
+    val priceDate: String,
+    @SerialName("gold_gram_eur")
+    val goldGramEur: Double,
+    @SerialName("silver_gram_eur")
+    val silverGramEur: Double,
+    @SerialName("usdeur")
+    val usdEur: Double
 )

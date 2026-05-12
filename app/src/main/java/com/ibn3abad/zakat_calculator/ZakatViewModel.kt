@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -14,6 +14,7 @@ package com.ibn3abad.zakat_calculator
 import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
@@ -35,13 +36,13 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
     var inputLiabilities by mutableStateOf("")
         private set
 
-    var irrigationRate by mutableStateOf(0.10)
+    var irrigationRate by mutableDoubleStateOf(0.10)
         private set
 
     var animalType by mutableStateOf(AnimalType.SHEEP)
         private set
 
-    var nisabTypeForLiquid by mutableStateOf(0)
+    var nisabTypeForLiquid by mutableIntStateOf(0)
         private set
 
     val nisabGoldEuro: Double
@@ -170,9 +171,9 @@ class ZakatViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             val price = repo.getPrice()
             if (price != null) {
-                goldPricePerGram = price.gold_gram_eur
-                silverPricePerGram = price.silver_gram_eur
-                priceDate = price.price_date
+                goldPricePerGram = price.goldGramEur
+                silverPricePerGram = price.silverGramEur
+                priceDate = price.priceDate
             } else {
                 priceDate = "Offline"
             }

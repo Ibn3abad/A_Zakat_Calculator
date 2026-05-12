@@ -45,6 +45,11 @@
     <string name="save_dialog_confirm">Enregistrer</string>
     <string name="save_dialog_dismiss">Annuler</string>
 
+    <string name="delete_dialog_title">Confirmer la suppression</string>
+    <string name="delete_dialog_text">Êtes-vous sûr de vouloir supprimer ce calcul ?</string>
+    <string name="delete_dialog_confirm">Supprimer</string>
+    <string name="delete_dialog_dismiss">Annuler</string>
+
     <string name="history_empty">Aucun calcul enregistré.</string>
     <string name="history_year_label">Année %1$d</string>
     <string name="history_total_label">Total : %1$.2f €</string>

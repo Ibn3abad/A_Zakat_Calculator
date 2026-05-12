@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
- * @date       06.04.2026
- * @version    2.15
+ * @date       12.05.2026
+ * @version    3.20
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by
@@ -12,13 +12,14 @@
 package com.ibn3abad.zakat_calculator
 
 import android.content.Context
+import androidx.core.content.edit
 import com.ibn3abad.zakat_calculator.data.model.MetalPrice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.*
 import java.net.URL
 
-class MetalPriceRepository(private val context: Context) {
+class MetalPriceRepository(context: Context) {
 
     companion object {
         // Deine Supabase-Werte
@@ -42,7 +43,7 @@ class MetalPriceRepository(private val context: Context) {
     suspend fun getPrice(): MetalPrice? {
         val cached = getCached()
         // Wenn kein Cache da ist, oder Daten zu alt (24h), oder Goldpreis ungültig (<= 0) -> Neu laden
-        if (cached == null || isOlderThan24Hours() || cached.gold_gram_eur <= 0) {
+        if (cached == null || isOlderThan24Hours() || cached.goldGramEur <= 0) {
             val fresh = fetchFromSupabase()
             if (fresh != null) {
                 saveToCache(fresh)
@@ -84,10 +85,10 @@ class MetalPriceRepository(private val context: Context) {
 
             val obj = jsonElement[0].jsonObject
             MetalPrice(
-                price_date = obj["price_date"]?.jsonPrimitive?.content ?: "---",
-                gold_gram_eur = obj["gold_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
-                silver_gram_eur = obj["silver_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
-                usdeur = obj["usdeur"]?.jsonPrimitive?.double ?: 1.0
+                priceDate = obj["price_date"]?.jsonPrimitive?.content ?: "---",
+                goldGramEur = obj["gold_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
+                silverGramEur = obj["silver_gram_eur"]?.jsonPrimitive?.double ?: 0.0,
+                usdEur = obj["usdeur"]?.jsonPrimitive?.double ?: 1.0
             )
         } catch (e: Exception) {
             android.util.Log.e("MetalPriceRepo", "Netzwerkfehler: ${e.message}")
@@ -98,21 +99,21 @@ class MetalPriceRepository(private val context: Context) {
     private fun getCached(): MetalPrice? {
         val date = prefs.getString(KEY_PRICE_DATE, null) ?: return null
         return MetalPrice(
-            price_date = date,
-            gold_gram_eur = prefs.getFloat(KEY_GOLD, 0f).toDouble(),
-            silver_gram_eur = prefs.getFloat(KEY_SILVER, 0f).toDouble(),
-            usdeur = prefs.getFloat(KEY_USDEUR, 0f).toDouble()
+            priceDate = date,
+            goldGramEur = prefs.getFloat(KEY_GOLD, 0f).toDouble(),
+            silverGramEur = prefs.getFloat(KEY_SILVER, 0f).toDouble(),
+            usdEur = prefs.getFloat(KEY_USDEUR, 0f).toDouble()
         )
     }
 
     private fun saveToCache(price: MetalPrice) {
-        prefs.edit()
-            .putString(KEY_PRICE_DATE, price.price_date)
-            .putFloat(KEY_GOLD, price.gold_gram_eur.toFloat())
-            .putFloat(KEY_SILVER, price.silver_gram_eur.toFloat())
-            .putFloat(KEY_USDEUR, price.usdeur.toFloat())
-            .putLong("last_fetch_timestamp", System.currentTimeMillis())
-            .apply()
+        prefs.edit {
+            putString(KEY_PRICE_DATE, price.priceDate)
+            putFloat(KEY_GOLD, price.goldGramEur.toFloat())
+            putFloat(KEY_SILVER, price.silverGramEur.toFloat())
+            putFloat(KEY_USDEUR, price.usdEur.toFloat())
+            putLong("last_fetch_timestamp", System.currentTimeMillis())
+        }
     }
 
     private fun isOlderThan24Hours(): Boolean {
