@@ -43,6 +43,7 @@
     <string name="res_base">الوعاء الزكوي:</string>
     <string name="res_zakat_amount">زكاة المال:</string>
     <string name="cat_about">حول التطبيق</string>
+    <string name="version_label">الإصدار %1$s</string>
     <string name="about_website_button">زيارة الموقع</string>
     <string name="about_description">تطبيق حاسبة الزكاة - قم بزيارة موقعنا لمزيد من المعلومات.</string>
     <string name="about_opensource_text">هذا التطبيق مفتوح المصدر. يمكنك الاطلاع على الكود المصدري عبر GitHub:</string>

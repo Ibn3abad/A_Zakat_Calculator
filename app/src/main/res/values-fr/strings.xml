@@ -59,6 +59,7 @@
     <string name="share_chooser_title">Partager via</string>
     <string name="cat_history">Historique</string>
     <string name="cat_about">À propos</string>
+    <string name="version_label">Version %1$s</string>
     <string name="about_website_button">Visiter le site</string>
     <string name="about_description">App Calculateur de Zakat - Visitez notre site pour plus d\'informations.</string>
     <string name="website_url">https://sites.google.com/view/com-ibn3abad-zakatcalculator/startseite</string>

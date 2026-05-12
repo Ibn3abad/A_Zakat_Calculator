@@ -375,6 +375,12 @@ fun AboutPage(accentColor: Color) {
             fontWeight = FontWeight.Bold
         )
 
+        Text(
+            text = stringResource(R.string.version_label, BuildConfig.VERSION_NAME),
+            color = Color.Gray,
+            style = MaterialTheme.typography.bodyMedium
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(

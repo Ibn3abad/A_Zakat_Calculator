@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.services)
-    alias(libs.plugins.legacy.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -19,8 +19,8 @@ android {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 37
-        versionCode = 18
-        versionName = "2.18"
+        versionCode = 19
+        versionName = "2.19"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -90,7 +90,7 @@ dependencies {
     // Room Database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 }
