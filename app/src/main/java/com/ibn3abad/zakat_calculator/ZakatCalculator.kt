@@ -95,7 +95,8 @@ object ZakatCalculator {
             }
 
             AppDestinations.ABOUT,
-            AppDestinations.VERLAUF -> ""
+            AppDestinations.VERLAUF,
+            AppDestinations.HOME -> ""
         }
     }
 

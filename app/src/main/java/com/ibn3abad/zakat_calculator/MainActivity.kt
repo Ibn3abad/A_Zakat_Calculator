@@ -38,6 +38,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.Card
@@ -62,6 +63,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -171,6 +173,7 @@ enum class AnimalType {
 }
 
 enum class AppDestinations(val labelRes: Int, val iconRes: Int) {
+    HOME(R.string.cat_home, R.drawable.app_logo),
     LIQUIDITAET(R.string.cat_liquid, R.drawable.bares_geld_64x64),
     FIRMA(R.string.cat_business, R.drawable.firmen_64x64),
     AKTIEN(R.string.cat_stocks, R.drawable.aktien_64x64),
@@ -178,7 +181,6 @@ enum class AppDestinations(val labelRes: Int, val iconRes: Int) {
     SILBER(R.string.cat_silver, R.drawable.silver_64x64),
     ERNTE(R.string.cat_harvest, R.drawable.ernte_64x64),
     TIERE(R.string.cat_animals, R.drawable.tiere_64x64),
-    //VERLAUF(R.string.cat_history, R.drawable.verlauf_64x64),
     VERLAUF(R.string.cat_history, R.drawable.app_logo),
     ABOUT(R.string.cat_about, R.drawable.app_logo),
 }
@@ -186,10 +188,14 @@ enum class AppDestinations(val labelRes: Int, val iconRes: Int) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
-    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.LIQUIDITAET) }
+    var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.HOME) }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val primaryPurple = Color(0xFFBB86FC)
+
+    BackHandler(enabled = currentDestination != AppDestinations.HOME) {
+        currentDestination = AppDestinations.HOME
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -291,18 +297,31 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                     CenterAlignedTopAppBar(
                         title = {
                             Text(
-                                text = stringResource(R.string.app_name),
+                                text = if (currentDestination == AppDestinations.HOME)
+                                    stringResource(R.string.app_name)
+                                else
+                                    stringResource(currentDestination.labelRes),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
                             )
                         },
                         navigationIcon = {
-                            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(
-                                    imageVector = Icons.Default.Menu,
-                                    contentDescription = null,
-                                    tint = primaryPurple
-                                )
+                            if (currentDestination == AppDestinations.HOME) {
+                                IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Menu,
+                                        contentDescription = null,
+                                        tint = primaryPurple
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = { currentDestination = AppDestinations.HOME }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Back",
+                                        tint = primaryPurple
+                                    )
+                                }
                             }
                         },
                         colors = TopAppBarDefaults.topAppBarColors(
@@ -328,6 +347,12 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                         .padding(innerPadding) // WICHTIG: Verhindert Überlappung
                 ) {
                     when (currentDestination) {
+                        AppDestinations.HOME -> {
+                            HomeScreen(
+                                onDestinationSelected = { currentDestination = it },
+                                accentColor = primaryPurple
+                            )
+                        }
                         AppDestinations.VERLAUF -> {
                             HistoryScreen(viewModel = viewModel)
                         }
@@ -887,4 +912,153 @@ fun AdMobBanner(
             adView.destroy()
         }
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(onDestinationSelected: (AppDestinations) -> Unit, accentColor: Color) {
+    val destinations = AppDestinations.entries.filter {
+        it != AppDestinations.HOME && it != AppDestinations.VERLAUF && it != AppDestinations.ABOUT
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Spacer(modifier = Modifier.height(8.dp))
+        
+        Image(
+            painter = painterResource(id = R.drawable.app_logo),
+            contentDescription = null,
+            modifier = Modifier.size(100.dp)
+        )
+
+        Text(
+            text = stringResource(R.string.drawer_title),
+            color = Color.White,
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        destinations.chunked(2).forEach { rowItems ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                rowItems.forEach { item ->
+                    CategoryButton(
+                        item = item,
+                        onClick = { onDestinationSelected(item) },
+                        modifier = Modifier.weight(1f),
+                        accentColor = accentColor
+                    )
+                }
+                if (rowItems.size == 1) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(horizontal = 32.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            SmallCategoryButton(
+                item = AppDestinations.VERLAUF,
+                onClick = { onDestinationSelected(AppDestinations.VERLAUF) },
+                modifier = Modifier.weight(1f),
+                accentColor = accentColor
+            )
+            SmallCategoryButton(
+                item = AppDestinations.ABOUT,
+                onClick = { onDestinationSelected(AppDestinations.ABOUT) },
+                modifier = Modifier.weight(1f),
+                accentColor = accentColor
+            )
+        }
+        
+        Spacer(modifier = Modifier.height(24.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CategoryButton(
+    item: AppDestinations,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    accentColor: Color
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier.height(110.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E).copy(alpha = 0.8f)),
+        border = BorderStroke(1.dp, accentColor.copy(alpha = 0.3f))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(id = item.iconRes),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(42.dp)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(item.labelRes),
+                color = Color.White,
+                fontSize = 14.sp,
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SmallCategoryButton(
+    item: AppDestinations,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    accentColor: Color
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier.height(60.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF1E1E1E).copy(alpha = 0.8f)),
+        border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.3f))
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(id = item.iconRes),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = stringResource(item.labelRes),
+                color = Color.White,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
+    }
 }

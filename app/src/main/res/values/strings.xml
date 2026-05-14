@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Zakat Rechner</string>
+    <string name="cat_home">Startseite</string>
     <string name="drawer_title">Zakat Kategorien</string>
     <string name="cat_liquid">Liquidität</string>
     <string name="cat_business">Firma</string>
