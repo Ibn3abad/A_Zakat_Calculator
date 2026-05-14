@@ -918,7 +918,7 @@ fun AdMobBanner(
 @Composable
 fun HomeScreen(onDestinationSelected: (AppDestinations) -> Unit, accentColor: Color) {
     val destinations = AppDestinations.entries.filter {
-        it != AppDestinations.HOME && it != AppDestinations.VERLAUF && it != AppDestinations.ABOUT
+        it != AppDestinations.HOME && it != AppDestinations.ABOUT
     }
 
     Column(
@@ -964,28 +964,6 @@ fun HomeScreen(onDestinationSelected: (AppDestinations) -> Unit, accentColor: Co
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(horizontal = 32.dp))
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            SmallCategoryButton(
-                item = AppDestinations.VERLAUF,
-                onClick = { onDestinationSelected(AppDestinations.VERLAUF) },
-                modifier = Modifier.weight(1f),
-                accentColor = accentColor
-            )
-            SmallCategoryButton(
-                item = AppDestinations.ABOUT,
-                onClick = { onDestinationSelected(AppDestinations.ABOUT) },
-                modifier = Modifier.weight(1f),
-                accentColor = accentColor
-            )
-        }
-        
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
