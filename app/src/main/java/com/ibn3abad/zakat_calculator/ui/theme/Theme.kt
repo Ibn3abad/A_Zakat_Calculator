@@ -20,7 +20,9 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.LocalTextStyle
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -63,7 +65,12 @@ fun Zakat_CalculatorTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+        typography = ZakatTypography,
+    ) {
+        CompositionLocalProvider(
+            LocalTextStyle provides MaterialTheme.typography.bodyLarge.copy(fontFamily = NotoKufiArabicFontFamily)
+        ) {
+            content()
+        }
+    }
 }
