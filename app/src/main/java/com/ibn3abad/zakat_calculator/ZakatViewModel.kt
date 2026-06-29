@@ -1,7 +1,7 @@
 /**
  * @author     A. KHOUK
  * @date       12.05.2026
- * @version    3.24
+ * @version    3.27
  * @copyright  Copyright (c) 2026, A. KHOUK.
  * @license    This program is free software: you can redistribute it and/or modify
  *             it under the terms of the GNU General Public License as published by

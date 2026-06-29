@@ -19,20 +19,24 @@ android {
         applicationId = "com.ibn3abad.zakat_calculator"
         minSdk = 24
         targetSdk = 37
-        versionCode = 26
-        versionName = "3.26"
+        versionCode = 27
+        versionName = "3.27"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("debug")
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
         }
     }
 
