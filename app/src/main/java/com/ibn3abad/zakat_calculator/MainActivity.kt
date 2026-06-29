@@ -286,11 +286,12 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                 .background(Color.Black)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.zakat_background_pattern),
+                painter = painterResource(id = R.drawable.app_background),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                alpha = 0.25f
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center,
+                alpha = 1.8f
             )
 
             Scaffold(
