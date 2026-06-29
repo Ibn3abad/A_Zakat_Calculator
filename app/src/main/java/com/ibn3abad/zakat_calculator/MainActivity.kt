@@ -291,7 +291,7 @@ fun ZakatCalculatorApp(viewModel: ZakatViewModel) {
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Fit,
                 alignment = Alignment.Center,
-                alpha = 1.8f
+                alpha = 1.5f
             )
 
             Scaffold(
